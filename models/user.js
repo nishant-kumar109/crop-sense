@@ -39,6 +39,49 @@ module.exports = (sequelize, DataTypes) => {
         paranoid: true,
         timestamp: true,
         });
+
+        Users.associate = (models)=>{
+
+            models.users.hasOne(models.farmers, {
+                as: "farmers",
+                foreignKey: "user_id",
+                onDelete: 'CASCADE',
+                hooks : true
+            });
+    
+            // models.users.hasOne(models.doctors, {
+            //     as: "doctor",
+            //     foreignKey: "user_id",
+            //     // onDelete: 'CASCADE'
+            // });
+    
+            // models.users.hasOne(models.admin, {
+            //     as: "admin",
+            //     foreignKey: "user_id",
+            //     // onDelete: 'CASCADE'
+            // });
+        }
+
+        Users.createUser = (userObj) => {
+            return Users.create(userObj);
+        }
         
+        Users.getUserById = (id) =>{
+            return Users.findByPk(id, { attributes: { exclude: ['password'] } });
+
+        }
+
+        Users.editUser = async (editObject, includeObj) => {
+            return await Users.update(editObject, includeObj);
+        }
+
+        Users.deleteUser = async(id) => {
+            return await Users.destroy({
+                where : {
+                    id : id
+                }
+            });
+        }
+
     return Users;
 };

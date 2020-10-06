@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
 
         })
     }
-        
+    
+    Farmers.createFarmer = (farmerObj)=>{
+        return Farmers.create(farmerObj)
+    }
     return Farmers;
 };

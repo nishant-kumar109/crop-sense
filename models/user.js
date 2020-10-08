@@ -71,6 +71,14 @@ module.exports = (sequelize, DataTypes) => {
 
         }
 
+        Users.findUserByEmail = async(email)=>{
+            return await Users.findOne({
+                where : {
+                    email : email
+                }
+            })
+        }
+        
         Users.editUser = async (editObject, includeObj) => {
             return await Users.update(editObject, includeObj);
         }

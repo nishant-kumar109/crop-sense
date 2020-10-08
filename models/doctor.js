@@ -43,6 +43,18 @@ module.exports = (sequelize, DataTypes) => {
 
         })
     }
+
+    Doctors.createDoctor = async(docObj)=>{
+        return await Doctors.create(docObj)
+    }
+
+    Doctors.getDoctorByUserId = async(userId)=>{
+        return await Doctors.findOne({
+            where : {
+                user_id : userId
+            }
+        })
+    }
         
     return Doctors;
 };

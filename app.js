@@ -6,9 +6,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const accountRouter = require('./routes/account')
 
 // require('dotenv').config()
-const db = require('./models/index')
+const db = require('./models/index');
+const account = require('./controllers/account');
 // const config = require(__dirname + '/../config/config.js');
 
 var app = express();
@@ -21,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/account', accountRouter)
 
 db.sequelize
 .sync()

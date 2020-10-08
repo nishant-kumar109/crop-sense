@@ -5,7 +5,6 @@ const createUserProfile = async (req, res, next) => {
     try {
         console.log('hitting the api controller ======= ')
         let password = req.body.password
-
         const userObj = {
             first_name:req.body.first_name,
             last_name : req.body.last_name,
@@ -13,7 +12,8 @@ const createUserProfile = async (req, res, next) => {
             mobile_number : req.body.mobile_number,
             role : req.body.role,
             password:password,
-            img_url : req.body.img_url
+            img_url : req.body.img_url,
+            region : req.body.region
         }
         await Users.createUser(userObj)
 

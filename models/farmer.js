@@ -41,5 +41,16 @@ module.exports = (sequelize, DataTypes) => {
     Farmers.createFarmer = (farmerObj)=>{
         return Farmers.create(farmerObj)
     }
+
+    Farmers.getFarmerByUserId = async(userId)=>{
+        return await Farmers.findOne({
+            where : {
+                user_id : userId
+            }
+        })
+    }
+
+
+
     return Farmers;
 };

@@ -28,6 +28,18 @@ module.exports = (sequelize, DataTypes) => {
 
         })
     }
+
+    Admins.createAdmin = (adminObj)=>{
+        return Admins.create(adminObj)
+    }
+
+    Admins.getAdminByUserId = async(userId)=>{
+        return await Admins.findOne({
+            where : {
+                user_id : userId
+            }
+        })
+    }
         
     return Admins;
 };

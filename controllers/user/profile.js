@@ -25,7 +25,7 @@ const createUserProfile = async (req, res, next) => {
 
 }
 
-const getUserProfile = async(req, res, next)=>{
+const getUserProfileById = async(req, res, next)=>{
     try {
         const user = await Users.getUserById(req.query.id);
         return res.status(200).json(user)
@@ -55,6 +55,20 @@ const editUserProfile = async(req,res,next)=>{
     }
 }
 
+const getAllUserProfile = async(req, res, next)=>{
+    try {
+        const lmt = req.query.pageSize || 10;
+        const ofct = (req.query.page - 1 || 0) * lmt;
+        const userWithList = await Users.getAllUsersWithCount({
+            limit: lmt,
+            offset: ofct
+        });
+        return res.status(200).json(userWithList)
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+}
 
 const deleteUserProfile = async(req,res,next)=>{
     try {
@@ -72,7 +86,8 @@ const deleteUserProfile = async(req,res,next)=>{
 
 module.exports = {
     createUserProfile,
-    getUserProfile,
+    getUserProfileById,
     editUserProfile,
+    getAllUserProfile,
     deleteUserProfile
 }

@@ -22,7 +22,7 @@ router.post('/createProfile',(req, res, next)=> {
 
 router.get('/getProfile', (req,res,next) => {
     console.log('req==== body', req.body)
-  userController.getUserProfile(req, res)
+  userController.getUserProfileById(req, res)
 })
 
 
@@ -31,6 +31,9 @@ router.put('/editProfile', (req,res,next) => {
   userController.editUserProfile(req,res)  
 })
 
+router.get('/getAllProfile', (req,res,next)=>{
+  userController.getAllUserProfile(req,res)
+})
 
 router.delete('/deleteProfile', (req,res,next) => {
   userController.deleteUserProfile(req, res)

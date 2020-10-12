@@ -33,7 +33,8 @@ db.sequelize
 .sync()
 .then(() => {
 app.listen(process.env.PORT, () => {
-console.log(`server started in ${process.env.NODE_ENV} environment`)
+console.log(`🚀🚀🚀 CROP-SENCE Secure, server up and running 🚀🚀🚀`);
+// console.log(`server started in ${process.env.NODE_ENV} environment`)
 });
 })
 .catch(error => {

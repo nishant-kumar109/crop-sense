@@ -1,0 +1,754 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "crop-sence REST API Documentation",
+      "license": {
+        "name": "Proprietary"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000/v1/",
+        "description": "Development server"
+      }
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "paths": {
+      "/account/login": {
+        "post": {
+          "summary": "Initiate Login Process",
+          "operationId": "login",
+          "tags": ["Account"],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Content-Type",
+              "schema": {
+                "type": "string",
+                "example": "application/json"
+              },
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "description": "Request to initiate the login",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountLogin"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login Successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/account/signup": {
+        "post": {
+          "summary": "Initiates Signup",
+          "operationId": "signup",
+          "tags": ["Account"],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Content-Type",
+              "description": "Content type of the body, should always be set to application/json unless specified otherwise.",
+              "schema": {
+                "type": "string",
+                "example": "application/json"
+              },
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "description": "Request to initiate the Signup",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSignup"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Signup Initiated.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SignupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/createProfile": {
+        "post": {
+          "summary": "Create a new user",
+          "operationId": "users-create-new",
+          "tags": ["Users"],
+          "parameters": [],
+          "requestBody": {
+            "description": "Request to create a user",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserProfile"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "On success of creating a user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "success": true,
+                      "message": "User Profile created",
+                      "data": {
+                        "first_name": "nishant",
+                        "last_name": "kumar",
+                        "email": "nishant30yopmail.com",
+                        "mobile_number": "987654321",
+                        "role": "admin",
+                        "password": "test@1234",
+                        "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                        "region": "north eastern india"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/getProfile/{id}": {
+        "get": {
+          "summary": "Profile details of a user",
+          "operationId": "user-profile",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Profile details response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "success": true,
+                      "message": "Profile retrieved",
+                      "data": {
+                        "id": "5",
+                        "email": "nishant5@yopmail.com",
+                        "mobile_number": "987654321",
+                        "role": "farmer",
+                        "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                        "first_name": "nishant",
+                        "last_name": "kumar",
+                        "region": null,
+                        "createdAt": "2020-10-06T11:20:36.464Z",
+                        "updatedAt": "2020-10-06T12:25:32.212Z",
+                        "deletedAt": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/editProfile/{riderId}": {
+        "put": {
+          "summary": "Update profile details of an user",
+          "operationId": "user-profile-update",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "description": "ID of user",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Params to update",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserProfile"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Profile updated response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "success": true,
+                      "message": "Profile updated",
+                      "data": {
+                        "id": "5",
+                        "email": "nishant5@yopmail.com",
+                        "mobile_number": "9876543210",
+                        "role": "farmer",
+                        "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                        "first_name": "sushant",
+                        "last_name": "sundran",
+                        "region": "Southern India",
+                        "createdAt": "2020-10-06T11:20:36.464Z",
+                        "updatedAt": "2020-10-09T13:03:46.192Z",
+                        "deletedAt": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/getAllUserList": {
+        "get": {
+          "summary": "Profile details of all user",
+          "operationId": "user-profile-list",
+          "tags": ["Users"],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Profile count and details response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "success": true,
+                      "message": "Profile retrieved",
+                      "data": {
+                        "count": 23,
+                        "rows": [
+                            {
+                                "id": "1",
+                                "email": "nishant@yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": null,
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": null,
+                                "createdAt": "2020-10-06T10:04:58.083Z",
+                                "updatedAt": "2020-10-06T10:04:58.083Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "4",
+                                "email": "nishant4@yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": null,
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": null,
+                                "createdAt": "2020-10-06T11:19:26.731Z",
+                                "updatedAt": "2020-10-06T11:19:26.731Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "7",
+                                "email": "nishant6yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:04:47.131Z",
+                                "updatedAt": "2020-10-08T04:04:47.131Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "9",
+                                "email": "nishant7yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:20:44.645Z",
+                                "updatedAt": "2020-10-08T04:20:44.645Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "11",
+                                "email": "nishant8yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:22:04.186Z",
+                                "updatedAt": "2020-10-08T04:22:04.186Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "13",
+                                "email": "nishant9yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:23:43.881Z",
+                                "updatedAt": "2020-10-08T04:23:43.881Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "14",
+                                "email": "nishant10yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:26:37.771Z",
+                                "updatedAt": "2020-10-08T04:26:37.771Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "16",
+                                "email": "nishant11yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T04:28:28.557Z",
+                                "updatedAt": "2020-10-08T04:28:28.557Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "17",
+                                "email": "nishant12yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "doctor",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T05:47:35.266Z",
+                                "updatedAt": "2020-10-08T05:47:35.266Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "18",
+                                "email": "nishant13yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T05:49:08.566Z",
+                                "updatedAt": "2020-10-08T05:49:08.566Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "20",
+                                "email": "nishant14yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T05:50:21.604Z",
+                                "updatedAt": "2020-10-08T05:50:21.604Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "21",
+                                "email": "nishant15yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$/A668HRuLRAeJjmhIfZDae1BglkaVFU6.oqYXZhpZd01xELqHaOmS",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T06:31:15.079Z",
+                                "updatedAt": "2020-10-08T06:31:15.079Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "22",
+                                "email": "nishant16yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$57Ahh0L7u7iQZY7bi75COei5Hc9nXNT8xdHcKbcS2r.D9vUn4tHnO",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T06:45:57.027Z",
+                                "updatedAt": "2020-10-08T06:45:57.027Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "23",
+                                "email": "nishant17yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$vnffVmqzaw2hla5LtHiB0ew0wRIbcNS8pVatttgUYnXmNDy5g59gC",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T07:26:29.777Z",
+                                "updatedAt": "2020-10-08T07:26:29.777Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "24",
+                                "email": "nishant18yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$/hCPgjYevn0bd1c8JFs08uroCSMd7dCy2mhQEGtSbxzalHorgovVK",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:06:42.451Z",
+                                "updatedAt": "2020-10-08T10:06:42.451Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "26",
+                                "email": "nishant19yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$Fi1n87zjnXTbGmFvfeTPruGE4jK0neYzCscAron8Q0Jzhznth8PGO",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:07:53.553Z",
+                                "updatedAt": "2020-10-08T10:07:53.553Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "27",
+                                "email": "nishant20yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$wyoM.AvRo4BpaClGo.EefOQaQIhTK8IygPT07ZjpujttWX.ds0tH2",
+                                "role": "doctor",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:09:42.354Z",
+                                "updatedAt": "2020-10-08T10:09:42.354Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "28",
+                                "email": "nishant21yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$RzmjGi4wZdxHr0k6cZcDx.h44wpQKwpePnqCoVDKqmbhW778I64Ru",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:10:48.582Z",
+                                "updatedAt": "2020-10-08T10:10:48.582Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "29",
+                                "email": "nishant22yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$iwtFG67dNGVgETncU3lFSOGnqvbnMuG.uYq76cv75lrUXQuy9JuBi",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:11:15.105Z",
+                                "updatedAt": "2020-10-08T10:11:15.105Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "30",
+                                "email": "nishant23yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$3Qjoeio10WCt8PHsfCiQGO.e264Cj7.SL0bIv003FRlAjxopnqn22",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-08T10:23:13.996Z",
+                                "updatedAt": "2020-10-08T10:23:13.996Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "32",
+                                "email": "nishant30yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "test@1234",
+                                "role": "admin",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-09T11:39:36.858Z",
+                                "updatedAt": "2020-10-09T11:39:36.858Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "33",
+                                "email": "nishant39yopmail.com",
+                                "mobile_number": "987654321",
+                                "password": "$2b$10$JdTintBKJQ/9TC.GFEFSm.v2/CifsLiy9Un9WK89ph68NHxH1c642",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "nishant",
+                                "last_name": "kumar",
+                                "region": "north eastern india",
+                                "createdAt": "2020-10-09T12:08:06.262Z",
+                                "updatedAt": "2020-10-09T12:08:06.262Z",
+                                "deletedAt": null
+                            },
+                            {
+                                "id": "5",
+                                "email": "nishant5@yopmail.com",
+                                "mobile_number": "9876543210",
+                                "password": "test@1234",
+                                "role": "farmer",
+                                "img_url": "https://unsplash.com/photos/imBSxksI7DA",
+                                "first_name": "sushant",
+                                "last_name": "sundran",
+                                "region": "Southern India",
+                                "createdAt": "2020-10-06T11:20:36.464Z",
+                                "updatedAt": "2020-10-09T13:05:16.613Z",
+                                "deletedAt": null
+                            }
+                        ]
+                    }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "schemas": {
+        "AccountLogin": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": ["password"],
+          "example": {
+            "email" : "nishant22yopmail.com",
+            "password" : "test@1234"
+          }
+        },
+        "AccountSignup": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "example": "nishant"
+            },
+            "last_name": {
+                "type": "string",
+                "example": "kumar"
+              },
+            "phone_number": {
+              "type": "string",
+              "example": "9876543210"
+            },
+            "email": {
+              "type": "string",
+              "example": "nishant30yopmail.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "test@1234"
+            },
+            "role": {
+              "type": "string",
+              "enum": ["farmer", "doctor", "admin"],
+              "example": "farmer"
+            }
+          },
+          "required": ["first_name", "first_name", "email", "password", "phone_number", "role"]
+        },
+        "LoginResponse": {
+          "type": "object",
+          "example": {
+            "success": true,
+            "message": "Log in successful",
+            "data": {
+                "id": "29",
+                "email": "nishant22yopmail.com",
+                "role": "admin",
+                "doctor_id": "5",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwiZW1haWwiOiJuaXNoYW50MjJ5b3BtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImRvY3Rvcl9pZCI6IjUiLCJpYXQiOjE2MDIyNDUwMjQsImV4cCI6MTYwMjMzMTQyNH0.N9CQYgw3ThP5GhvR0UIRolIjDCGNqTglJxTwDhb8nTA"
+            }
+          }
+        },
+        "SignupResponse": {
+          "type": "object",
+          "example": {
+            "success": true,
+            "data": {
+                "id": "33",
+                "role": "farmer",
+                "email": "nishant39yopmail.com",
+                "farmer_id": "6",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzIiwicm9sZSI6ImZhcm1lciIsImVtYWlsIjoibmlzaGFudDM5eW9wbWFpbC5jb20iLCJmYXJtZXJfaWQiOiI2IiwiaWF0IjoxNjAyMjQ1Mjg2fQ.ES8BYqt99H9ZGlPFF_KYX8IUTQVtQuFNatyeqxWf5-k"
+            }
+          }
+        },
+        "CreateUserProfile": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "example": "nishant"
+            },
+            "last_name": {
+                "type": "string",
+                "example": "kumar"
+              },
+            "phone_number": {
+              "type": "string",
+              "example": "9876543210"
+            },
+            "email": {
+              "type": "string",
+              "example": "nishant30yopmail.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "test@1234"
+            },
+            "img_url": {
+              "type": "string",
+              "example": "https://unsplash.com/photos/imBSxksI7DA"
+            },
+            "region": {
+                "type": "string",
+                "example": "north eastern india"
+              }
+          },
+          "required": ["first_name", "last_name","email", "password", "phone_number", "role"]
+        },
+        "UpdateUserProfile": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "img_url": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "first_name": "sushant",
+              "last_name": "sundran",
+              "region": "southern India"
+            }
+          }
+      }
+    }
+  }

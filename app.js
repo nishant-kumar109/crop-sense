@@ -11,9 +11,13 @@ const accountRouter = require('./routes/account')
 // require('dotenv').config()
 const db = require('./models/index');
 const account = require('./controllers/account');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./config/swagger.json');
 // const config = require(__dirname + '/../config/config.js');
 
 var app = express();
+ 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -29,7 +33,8 @@ db.sequelize
 .sync()
 .then(() => {
 app.listen(process.env.PORT, () => {
-console.log(`server started in ${process.env.NODE_ENV} environment`)
+console.log(`🚀🚀🚀 CROP-SENCE Secure, server up and running 🚀🚀🚀`);
+// console.log(`server started in ${process.env.NODE_ENV} environment`)
 });
 })
 .catch(error => {

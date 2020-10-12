@@ -5,6 +5,8 @@ const Doctor = require('../models').doctors
 const Admin = require('../models').admins
 const bcrypt = require('bcrypt');
 const JWT = require('../utils/jwt')
+const responseHandler = require('../utils/responseHandler')
+
 const signUpUser = async (req, res, next) => {
     try {
         let password = bcrypt.hashSync(req.body.password, 10);
@@ -50,13 +52,14 @@ const signUpUser = async (req, res, next) => {
             payload['email'] = user.dataValues.email;
             payload['admin_id'] = admin.dataValues.id
         }
-
+        else{
+            responseHandler.clientError(res, null, "please sign up with a role")
+        }
         payload['token'] = JWT.generateToken(payload);
-        return res.status(200).json(payload);
-
+        responseHandler.successDataResponse(res, payload,'successfully signup')
     } catch (error) {
         console.log(error);
-        next(error);
+        responseHandler.clientError(res, null, "some thing went wrong")
     }
 
 }
@@ -64,7 +67,7 @@ const signUpUser = async (req, res, next) => {
 const logInUser = async(req,res,next)=>{
     try {
         let userDetails = await Users.findUserByEmail(req.body.email);
-        console.log('user ==', userDetails.dataValues.password)
+        // console.log('user ==', userDetails.dataValues.password)
         if(userDetails){
             const validatePassword = await bcrypt.compare(req.body.password, userDetails.dataValues.password);
             const payload = {}
@@ -79,7 +82,7 @@ const logInUser = async(req,res,next)=>{
                     payload["token"] = JWT.generateToken(payload, {
                         expiresIn: '24h'
                     });
-                    return res.status(200).json(payload); 
+                    responseHandler.successDataResponse(res, payload,'successfully login')
                 }
                 else if(role == 'doctor'){
                     let doctor = await Doctor.getDoctorByUserId(userDetails.dataValues.id)
@@ -88,7 +91,7 @@ const logInUser = async(req,res,next)=>{
                     payload["token"] = JWT.generateToken(payload, {
                         expiresIn: '24h'
                     });
-                    return res.status(200).json(payload); 
+                    responseHandler.successDataResponse(res, payload,'successfully login')
                 }
                 else if(role == 'admin'){
                     let admin = await Admin.getAdminByUserId(userDetails.dataValues.id)
@@ -97,26 +100,21 @@ const logInUser = async(req,res,next)=>{
                     payload["token"] = JWT.generateToken(payload, {
                         expiresIn: '24h'
                     });
-                    return res.status(200).json(payload); 
+                    responseHandler.successDataResponse(res, payload,'successfully login')
                 }
                 else{
-                    return res.status(500).json({
-                        "message" : "please sign up with a role"
-                    }); 
+                    responseHandler.clientError(res, null, "please sign up with a role")
                 }
                  
             }else{
-                return res.status(400).json({
-                    message : "please enter correct password"
-                }); 
+                responseHandler.clientError(res, null, "please enter correct password")
             }
         }else{
-            return res.status(400).json({
-                message : "email does not exist"
-            }); 
+            responseHandler.clientError(res, null, "user does not exist")
         }
     } catch (error) {
-        
+        console.log(error)
+        responseHandler.serverError(res, message)
     }
 }
 

@@ -83,6 +83,10 @@ module.exports = (sequelize, DataTypes) => {
             return await Users.update(editObject, includeObj);
         }
 
+        Users.getAllUsersWithCount = async () => {
+            return await Users.findAndCountAll()
+        }
+
         Users.deleteUser = async(id) => {
             return await Users.destroy({
                 where : {

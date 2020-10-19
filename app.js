@@ -3,11 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const JWT = require('./utils/jwt')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const accountRouter = require('./routes/account')
-
+const consultationRouter = require('./routes/consultation')
 // require('dotenv').config()
 const db = require('./models/index');
 const account = require('./controllers/account');
@@ -25,9 +25,31 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use('/account', async (req, res, next) => {
+//   if (req.headers['authorization']) {
+//     var token = req.headers['authorization']
+//     if (token.startsWith('Bearer ')) {
+//       token = token.slice(7, token.length);
+//       let verifyDetails = JWT.verifyToken(token, req, res, next);
+//       console.log(verifyDetails); 
+//       if (verifyDetails.email) {
+//         req["user"] = verifyDetails
+//         next();
+//       } else {
+//         res.status(403).send({ "error": { status: 403, message: "UnAuthorized Access" } });
+//       }
+//     }
+//   } else {
+//     req.user = { role: "public" }
+//     next();
+//   }
+// }, accountRouter)
+
+// accountRouter.routesConfig(app);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/account', accountRouter)
+app.use('/account', accountRouter);
+app.use('/consultations', consultationRouter);
 
 db.sequelize
 .sync()

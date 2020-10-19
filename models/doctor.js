@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
             hooks : true
 
         })
+
+        Doctors.hasMany(models.consultations, {
+            as : "consultation" , 
+            foreignKey : "doctor_id",
+            onDelete: 'cascade',
+            hooks : true
+
+        })
     }
 
     Doctors.createDoctor = async(docObj)=>{

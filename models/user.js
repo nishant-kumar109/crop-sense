@@ -49,17 +49,19 @@ module.exports = (sequelize, DataTypes) => {
                 hooks : true
             });
     
-            // models.users.hasOne(models.doctors, {
-            //     as: "doctor",
-            //     foreignKey: "user_id",
-            //     // onDelete: 'CASCADE'
-            // });
+            models.users.hasOne(models.doctors, {
+                as: "doctor",
+                foreignKey: "user_id",
+                onDelete: 'CASCADE',
+                hooks : true
+            });
     
-            // models.users.hasOne(models.admin, {
-            //     as: "admin",
-            //     foreignKey: "user_id",
-            //     // onDelete: 'CASCADE'
-            // });
+            models.users.hasOne(models.admins, {
+                as: "admin",
+                foreignKey: "user_id",
+                onDelete: 'CASCADE',
+                hooks : true
+            });
         }
 
         Users.createUser = (userObj) => {

@@ -40,7 +40,7 @@ const signUpUser = async (req, res, next) => {
         else if(req.body.role == 'doctor'){
             let doctor = await Doctor.createDoctor(userWithRoleObj)
             payload['id'] = user.dataValues.id;
-            payload['role'] = 'admin';
+            payload['role'] = 'doctor';
             payload['email'] = user.dataValues.email;
             payload['doctor_id'] = doctor.dataValues.id
         }

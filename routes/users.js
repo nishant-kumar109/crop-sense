@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user/profile')
 const Joi = require('joi');
+const {validAdmin, authValidation} = require('../middleware/authmiddleware')
 
 const profileSchema = Joi.object().keys({
   "first_name": Joi.string().required(),
@@ -10,24 +11,32 @@ const profileSchema = Joi.object().keys({
   "password": Joi.string().required(),
   "mobile_number": Joi.string(),
   "region" : Joi.string(),
-  "role": Joi.string().valid("farmer", "doctor", "admin").required()
+  "role": Joi.string().valid("farmer", "doctor", "admin").required(),
+  "total_exprience" : Joi.number(),
+  "about_me" : Joi.string()
 })
 
 
-router.post('/createProfile',(req, res, next)=> {
-  console.log('api hitting ===', req.body)
+router.post('/profile',(req, res, next)=> {
+  // console.log('api hitting ===', req.body)
   profileSchema.validate(req.body);
+  authValidation(req,res);
   userController.createUserProfile(req,res)
 });
 
-router.get('/getProfile', (req,res,next) => {
-    console.log('req==== body', req.body)
-  userController.getUserProfileById(req, res)
+router.get('/profile/:id', (req,res,next) => {
+    authValidation(req,res)
+  userController.getProfile(req, res)
 })
 
+router.get('/profile', (req,res,next) => {
+  authValidation(req,res)
+userController.getOneProfileByUserId(req, res)
+})
 
-router.put('/editProfile', (req,res,next) => {
+router.put('/profile', (req,res,next) => {
   profileSchema.validate(req.body);
+  authValidation(req,res)
   userController.editUserProfile(req,res)  
 })
 

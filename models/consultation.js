@@ -108,12 +108,16 @@ module.exports = (sequelize, DataTypes) => {
         return await Consultations.findAndCountAll()
     }
 
-    Consultations.getConsultationById = async (consultation_id) => {
-        return await Consultations.findOne({
-            where : {
-                id : consultation_id
-            }
-        })
+    Consultations.getAllConsultationByFarmerId = async (includeObj) => {
+        return await Consultations.findAndCountAll(includeObj)
+    }
+
+    Consultations.getAllConsultationByDoctorId = async (includeObj) => {
+        return await Consultations.findAndCountAll(includeObj)
+    }
+
+    Consultations.getConsultationById = async (includeObj) => {
+        return await Consultations.findOne(includeObj)
     }
         
     return Consultations;

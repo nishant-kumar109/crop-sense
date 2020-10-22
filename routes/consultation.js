@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const consultationController = require('../controllers/consultation/consultation')
 const Joi = require('joi');
-
+const {validAdmin, authValidation} = require('../middleware/authmiddleware')
 const consultationSchema = Joi.object().keys({
   doctor_id : Joi.string().required(),
   crop_type : Joi.string().required(),
@@ -34,21 +34,25 @@ const editConsultaionSchema = Joi.object().keys({
 
 
 router.post('/create',(req, res, next)=> {
-    consultationSchema.validate(req.body);
+     consultationSchema.validate(req.body);
+    authValidation(req,res);
     consultationController.createConsultaion(req,res)
   });
 
 router.put('/edit', (req,res,next)=>{
   editConsultaionSchema.validate(req.body);
+  authValidation(req,res);
   consultationController.updateConsultation(req,res)
 })
 
 router.get('/allConsultation', (req, res, next) => {
+  authValidation(req,res);
   consultationController.getAllConsultation(req,res)
 // next(error)
 })
 
 router.get('/:id', (req,res,next) =>{
+  authValidation(req,res);
   consultationController.getConsultationById(req,res)
 })
 module.exports = router;

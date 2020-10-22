@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
         return Farmers.create(farmerObj)
     }
 
+    Farmers.editFarmer = async (editObject, includeObj) => {
+        return await Farmers.update(editObject, includeObj);
+    }
+    
     Farmers.getFarmerByUserId = async(userId)=>{
         return await Farmers.findOne({
             where : {
@@ -59,7 +63,9 @@ module.exports = (sequelize, DataTypes) => {
         })
     }
 
-
+    // Farmers.getFarmerById = (includeObj)=>{
+    //     return Farmers.findOne(includeObj)
+    // }
 
     return Farmers;
 };

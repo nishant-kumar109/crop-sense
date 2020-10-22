@@ -25,27 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/account', async (req, res, next) => {
-//   if (req.headers['authorization']) {
-//     var token = req.headers['authorization']
-//     if (token.startsWith('Bearer ')) {
-//       token = token.slice(7, token.length);
-//       let verifyDetails = JWT.verifyToken(token, req, res, next);
-//       console.log(verifyDetails); 
-//       if (verifyDetails.email) {
-//         req["user"] = verifyDetails
-//         next();
-//       } else {
-//         res.status(403).send({ "error": { status: 403, message: "UnAuthorized Access" } });
-//       }
-//     }
-//   } else {
-//     req.user = { role: "public" }
-//     next();
-//   }
-// }, accountRouter)
-
-// accountRouter.routesConfig(app);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/account', accountRouter);

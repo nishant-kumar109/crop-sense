@@ -31,21 +31,11 @@ const createConsultaion = async (req, res, next) => {
             const consultation = await Consultations.createConsultation(consultationObj)
 
             let attachments = req.body.consultation_attachments
-            const consultationAttachments = {}
             for (let i = 0; i < attachments.length; i++) {
-                consultationAttachments['file_url'] = attachments[i]['file_url'],
-                    consultationAttachments['file_type'] = attachments[i]['file_type'],
-                    consultationAttachments['consultation_id'] = consultation.id
-                await ConsultationAttachments.createConsultationAttachments(consultationAttachments)
+                attachments[i]['consultation_id'] = consultation.id
             }
+            await ConsultationAttachments.bulkCreate(attachments)
 
-            const consultationAttachment = await ConsultationAttachments.findAll({
-                where: {
-                    consultation_id: consultation.dataValues.id
-                }
-            })
-
-            consultation.dataValues["consultation_attachments"] = consultationAttachment
             responseHandler.successDataResponse(res, consultation, "Consultaion created successfully")
         } else {
             responseHandler.unAuthorised(res)
@@ -72,13 +62,6 @@ const updateConsultation = async (req, res, next) => {
                     console.log('rowsUpdated', rowsUpdate);
                     return updatedConsultation
                 })
-            const consultationAttachment = await ConsultationAttachments.findAll({
-                where: {
-                    consultation_id: consultation.dataValues.id
-                }
-            })
-
-            consultation.dataValues["consultation_attachments"] = consultationAttachment
             responseHandler.successDataResponse(res, consultation, "Consultaion updated successfully")
         } else {
             responseHandler.unAuthorised(res)

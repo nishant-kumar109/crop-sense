@@ -14,7 +14,7 @@ const account = require('./controllers/account');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
 // const config = require(__dirname + '/../config/config.js');
-
+const chalk = require('chalk')
 var app = express();
  
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -34,7 +34,7 @@ db.sequelize
 .sync()
 .then(() => {
 app.listen(process.env.PORT, () => {
-console.log(`🚀🚀🚀 CROP-SENCE Secure, server up and running 🚀🚀🚀`);
+console.log(chalk.white.bgMagenta.bold(`🚀🚀🚀 CROP-SENSE server: Secure, up and running 🚀🚀🚀`));
 // console.log(`server started in ${process.env.NODE_ENV} environment`)
 });
 })

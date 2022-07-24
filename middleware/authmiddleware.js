@@ -6,17 +6,17 @@ const JWT = require('../utils/jwt')
 const authValidation = async (req, res, next) => {
     if (req.headers['authorization']) {
       var token = req.headers['authorization']
-      if (token.startsWith('Bearer ')) {
-        token = token.slice(7, token.length);
+      // if (token.startsWith('Bearer ')) {
+      //   token = token.slice(7, token.length);
         let verifyDetails =  JWT.verifyToken(token, req, res, next); 
-        if (verifyDetails.email) {
+        if (verifyDetails) {
           req["user"] = verifyDetails
         } else {
           await res.status(403).send({ "error": { status: 403, message: "UnAuthorized Access" } });
         }
-      }
+      // }
     }else {
-        await res.status(403).send({ "error": { status: 403, message: "UnAuthorized Access" } });
+        await res.status(403).send({ "error": { status: 403, message: "Access token is not supplied" } });
     }
 }
 

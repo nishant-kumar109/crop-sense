@@ -1,4 +1,3 @@
-const { response } = require("../app");
 const Users = require('../models').users
 const Farmers = require('../models').farmers
 const Doctor = require('../models').doctors
@@ -67,7 +66,6 @@ const signUpUser = async (req, res, next) => {
 const logInUser = async(req,res,next)=>{
     try {
         let userDetails = await Users.findUserByEmail(req.body.email);
-        // console.log('user ==', userDetails.dataValues.password)
         if(userDetails){
             const validatePassword = await bcrypt.compare(req.body.password, userDetails.dataValues.password);
             const payload = {}

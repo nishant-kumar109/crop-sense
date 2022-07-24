@@ -3,17 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const JWT = require('./utils/jwt')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const accountRouter = require('./routes/account')
 const consultationRouter = require('./routes/consultation')
-// require('dotenv').config()
+require('dotenv').config()
 const db = require('./models/index');
-const account = require('./controllers/account');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
-// const config = require(__dirname + '/../config/config.js');
 const chalk = require('chalk')
 var app = express();
  
@@ -25,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/healthchek', indexRouter);
 app.use('/users', usersRouter);
 app.use('/account', accountRouter);
 app.use('/consultations', consultationRouter);
@@ -33,13 +30,13 @@ app.use('/consultations', consultationRouter);
 db.sequelize
 .sync()
 .then(() => {
+console.log(chalk.white.bgMagenta.bold(`CROP-SENSE connected with postgres : 🌴🌴🌴`,));
 app.listen(process.env.PORT, () => {
-console.log(chalk.white.bgMagenta.bold(`🚀🚀🚀 CROP-SENSE server: Secure, up and running 🚀🚀🚀`));
-// console.log(`server started in ${process.env.NODE_ENV} environment`)
+console.log(chalk.white.bgGreen.bold(`CROP-SENSE server running at : ${process.env.PORT} 🚀🚀🚀 `));
 });
 })
 .catch(error => {
-console.log('Error connecting to DB', error);
+console.log(error);
 });
 
 

@@ -18,18 +18,17 @@ const profileSchema = Joi.object().keys({
 
 
 router.post('/profile',(req, res, next)=> {
-  // console.log('api hitting ===', req.body)
   profileSchema.validate(req.body);
   authValidation(req,res);
   userController.createUserProfile(req,res)
 });
 
-router.get('/profile/:id', (req,res,next) => {
+router.get('/profile', (req,res,next) => {
     authValidation(req,res)
   userController.getProfile(req, res)
 })
 
-router.get('/profile', (req,res,next) => {
+router.get('/profile/:id', (req,res,next) => {
   authValidation(req,res)
 userController.getOneProfileByUserId(req, res)
 })
@@ -40,11 +39,12 @@ router.put('/profile', (req,res,next) => {
   userController.editUserProfile(req,res)  
 })
 
-router.get('/getAllProfile', (req,res,next)=>{
+router.get('/all-profile', (req,res,next)=>{
+  authValidation(req,res)
   userController.getAllUserProfile(req,res)
 })
 
-router.delete('/deleteProfile', (req,res,next) => {
+router.delete('/profile', (req,res,next) => {
   userController.deleteUserProfile(req, res)
 })
 

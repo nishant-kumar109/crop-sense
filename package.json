@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "chalk": "^4.1.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
@@ -29,7 +30,7 @@
     "type": "git",
     "url": "git+https://github.com/nishant-kumar109/crop-sense-01.git"
   },
-  "author": "",
+  "author": "nishant",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nishant-kumar109/crop-sense-01/issues"

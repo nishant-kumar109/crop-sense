@@ -1,10 +1,10 @@
 const JWT = require('jsonwebtoken');
 // const generator = require('generate-password');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
-const generateToken = (data, options) => {
+const generateToken = (data) => {
 
-    return JWT.sign(data, process.env.PRIVATE_KEY, options);
+    return JWT.sign(data, process.env.PRIVATE_KEY,{expiresIn: "7d"});
 }
 
 
@@ -16,7 +16,7 @@ const verifyToken = (token, req, res, next) => {
 
     } catch (error) {
         console.log(error)
-        // next(error)
+       return new Error(error)
     }
 }
 

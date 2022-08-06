@@ -1,8 +1,5 @@
-const { response } = require("../../app");
-const Users = require('../../models').users
 const Farmers = require('../../models').farmers
 const Doctors = require('../../models').doctors
-const Admins = require('../../models').admins
 
 const responseHandler = require('../../utils/responseHandler')
 const Consultations = require('../../models').consultations
@@ -10,7 +7,6 @@ const ConsultationAttachments = require('../../models').consultation_attachments
 
 const createConsultaion = async (req, res, next) => {
     try {
-        console.log('req.user ==== ', req.user)
         if (req.user.role == 'farmer') {
             const consultationObj = {
                 farmer_id: req.user.farmer_id,
@@ -41,8 +37,9 @@ const createConsultaion = async (req, res, next) => {
             responseHandler.unAuthorised(res)
         }
     } catch (error) {
-        responseHandler.clientError(res, "consultation does not created")
         console.log(error);
+        responseHandler.clientError(res, "consultation does not created")
+        
     }
 
 }
@@ -72,7 +69,6 @@ const updateConsultation = async (req, res, next) => {
 }
 
 const getAllConsultation = async (req, res, next) => {
-    console.log('api is hitting');
     try {
         const page = req.query.page
         const limit = req.query.pageSize || 10;
@@ -139,7 +135,6 @@ const getAllConsultation = async (req, res, next) => {
 }
 
 const getConsultationById = async (req, res, next) => {
-    console.log('api is hitting', req.params.id);
     try {
         let consultation = await Consultations.getConsultationById({
             where: {

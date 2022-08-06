@@ -1,5 +1,3 @@
-const { response } = require("../../app");
-const user = require("../../models/user");
 const Users = require('../../models').users
 const Farmers = require('../../models').farmers
 const Doctors = require('../../models/').doctors
@@ -30,10 +28,9 @@ const createUserProfile = async (req, res, next) => {
                     let farmer = {}
                     farmer['farmer_details'] = updatedFarmer.dataValues
                     farmer['user_details'] = userObj.dataValues
-                    console.log('farmer === ', farmer)
-                    // console.log('rowsUpdated', rowsUpdate, farmer);
+                    console.log('rowsUpdated', rowsUpdate, farmer);
                     responseHandler.successDataResponse(res,farmer,'Farmer profile created successfully')
-                  });
+                });
 
             }
             else if (req.user.role == 'doctor') {
@@ -131,8 +128,7 @@ const getProfile = async(req, res, next)=>{
 
 const getOneProfileByUserId = async (req,res,next)=>{
     try {
-        let user_id = req.query.id;
-        console.log('user id ==', user_id)
+        let user_id = req.params.id;
         console.log(req.user.role)
         if(req.user.role == 'farmer'){
         const user = await Users.findOne({
@@ -153,7 +149,7 @@ const getOneProfileByUserId = async (req,res,next)=>{
             ]    
         })
         responseHandler.successDataResponse(res, user,'user profile retrieved successfully')
-     }
+    }
     else if(req.user.role == 'doctor'){
         const user = await Users.findOne({
             where:{
@@ -185,7 +181,7 @@ const getOneProfileByUserId = async (req,res,next)=>{
 const editUserProfile = async(req,res,next)=>{
     try {
         const user_id = req.user.id;
-        const editObj = req.body.edit_user
+        const editObj = req.body
         const userObj =    await Users.editUser(editObj, {
                 returning: true,
                 where : {
@@ -195,33 +191,23 @@ const editUserProfile = async(req,res,next)=>{
                     exclude : ['password']
                 }
             })
-            .then(([rowsUpdate, [updatedUser]])=> {
-                console.log('rowsUpdated', rowsUpdate);
-                return updatedUser;
-              });
-              
-              console.log(userObj)
-            //   const userObj = await Users.getUserById(req.user.id)
-
+            
               if(req.user.role == 'farmer'){
                   farmerObj = {
                       total_exprience : req.body.total_exprience,
                       about_me : req.body.about_me
                   }
-                  await Farmers.editFarmer(farmerObj, {
+                  console.log('inside farm', farmerObj);
+                 const farmerDetails = await Farmers.editFarmer(farmerObj, {
                       returning: true,
                       where : {
                           id : req.user.farmer_id
                       }
                   })
-                  .then(([rowsUpdate, [updatedFarmer]])=> {
-                      let farmer = {}
-                      farmer['farmer_details'] = updatedFarmer.dataValues
-                      farmer['user_details'] = userObj.dataValues
-                      console.log('farmer === ', farmer)
-                      console.log('rowsUpdated', rowsUpdate, farmer);
-                      responseHandler.successDataResponse(res,farmer,'Farmer profile created successfully')
-                    });
+                  let farmer = {}
+                  farmer['farmer_details'] = farmerDetails[1][0].dataValues
+                  farmer['user_details'] = userObj[1][0].dataValues
+                  responseHandler.successDataResponse(res,farmer,'Farmer profile created successfully')
               }
               else if (req.user.role == 'doctor') {
                   doctorObj = {
@@ -253,7 +239,7 @@ const editUserProfile = async(req,res,next)=>{
 
     } catch (error) {
         console.log(error);
-        // next(error)
+        next(error)
     }
 }
 

@@ -5,6 +5,11 @@ module.exports = {
     "database": process.env.DB_DATABASE,
     "host": process.env.DB_HOST,
     "dialect": "postgres",
-    "logging" : false
+    "logging" : false,
+    "dialectOptions": {
+        "ssl": {
+            "rejectUnauthorized": false
+        }
+    }
 }
 
